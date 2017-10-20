@@ -7,8 +7,9 @@ def dataSet():
     dataSet = np.array(dataSet)
     return dataSet[:,:-1], dataSet[:,-1:].reshape([-1, 1])
 
+# this funciton is modified from https://zhuanlan.zhihu.com/p/29212107
 def plot_point(points, labels, w, b, alphas):
-    # class   
+    # class
     classified_pts = {'+1': [], '-1': []}
     for point, label in zip(points, labels):
         if label == 1.0:
@@ -23,20 +24,19 @@ def plot_point(points, labels, w, b, alphas):
         ax.scatter(pts[:, 0], pts[:, 1], label=label)
     
     # plot line
-    #w = get_w(alphas, dataset, labels)
     print '%s %s'%(w, b)
     x1, _ = np.max(points, axis=0)
     x2, _ = np.min(points, axis=0)
     a1, a2 = w[0,0], w[0,1]
     y1, y2 = (-b[0, 0] - a1*x1)/a2, (-b[0, 0] - a1*x2)/a2
-    print y1.shape, y2.shape
-    print [x1, x2], [y1, y2]
+    #print y1.shape, y2.shape
+    #print [x1, x2], [y1, y2]
     ax.plot([x1, x2], [y1, y2])
     #ax.plot([y1[0, 0], y2[0, 0]], [x1, x2])
     
     # plot vector
     for i, alpha in enumerate(alphas):
-        if abs(alpha) > 1e-3 and alpha < 500.0:
+        if abs(alpha) > 1e-4:
             x, y = points[i]
             ax.scatter([x], [y], s=150, c='none', alpha=0.7,
                        linewidth=1.5, edgecolor='#AB3319')
@@ -129,12 +129,5 @@ for iter in range(10000):
     else:
         k = 0
 plot_point(X, Y, get_w(alphas, X, Y), b, alphas)
-
-
-
-
-
-
-
 
 
